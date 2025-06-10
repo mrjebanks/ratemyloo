@@ -120,7 +120,7 @@ function StarRating({ name, value, onChange }) {
       {stars.map((star) => (
         <span
           key={star}
-          className={\`cursor-pointer text-xl \${value >= star ? 'text-yellow-400' : 'text-gray-300'}\`}
+          className={`cursor-pointer text-xl ${value >= star ? "text-yellow-400" : "text-gray-300"}`}
           onClick={() => onChange({ target: { name, value: star } })}
           onMouseOver={(e) => e.target.classList.add('scale-110')}
           onMouseOut={(e) => e.target.classList.remove('scale-110')}

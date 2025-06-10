@@ -281,11 +281,9 @@ function App() {
                     onChange={(e) => handleChange(toilet.id, e)} />
                 </label><br />
                 <label>Cleanliness:<br />
-    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
-                </label><br />
+    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
                 <label>Accessibility:<br />
-    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
-                </label><br />
+    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
                 <label>Baby Changing:<br />
                   <input name="baby_changing" type="number" min="1" max="5" required
                     onChange={(e) => handleChange(toilet.id, e)} />
@@ -333,11 +331,9 @@ function App() {
       onChange={(e) => handleChange("custom_" + toilet.id, e)} />
   </label><br />
   <label>Cleanliness:<br />
-    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
-  </label><br />
+    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
   <label>Accessibility:<br />
-    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
-  </label><br />
+    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
   <label>Baby Changing:<br />
     <input name="baby_changing" type="number" min="1" max="5" required
       onChange={(e) => handleChange("custom_" + toilet.id, e)} />

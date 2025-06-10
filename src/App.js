@@ -1,8 +1,10 @@
 
 import React, { useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-geosearch/dist/geosearch.css";
+import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
 const defaultPosition = [51.505, -0.09];
 
@@ -46,7 +48,37 @@ function FetchToilets({ setToilets, setSummaries }) {
         });
     }
   });
+  return null;
+}
 
+function LocateButton({ userLocation }) {
+  const map = useMap();
+  return (
+    <button
+      onClick={() => {
+        if (userLocation) map.flyTo(userLocation, 16);
+      }}
+      className="absolute z-[999] bottom-4 right-4 bg-blue-600 text-white p-2 rounded shadow"
+    >
+      📍 My Location
+    </button>
+  );
+}
+
+function SearchControl() {
+  const map = useMap();
+  useEffect(() => {
+    const provider = new OpenStreetMapProvider();
+    const searchControl = new GeoSearchControl({
+      provider,
+      style: "bar",
+      autoClose: true,
+      searchLabel: "Search for a place",
+      keepResult: true
+    });
+    map.addControl(searchControl);
+    return () => map.removeControl(searchControl);
+  }, [map]);
   return null;
 }
 
@@ -98,8 +130,15 @@ function App() {
     });
   };
 
+  const toiletIcon = new L.Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854878.png",
+    iconSize: [35, 35],
+    iconAnchor: [17, 34],
+    popupAnchor: [0, -30]
+  });
+
   return (
-    <div className="h-screen w-screen">
+    <div className="relative h-screen w-screen">
       <h1 className="text-center text-3xl font-bold p-4">Rate My Loo 🚻</h1>
       <MapContainer center={userPosition} zoom={15} className="h-[85%] w-full">
         <TileLayer
@@ -107,11 +146,13 @@ function App() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <FetchToilets setToilets={setToilets} setSummaries={setSummaries} />
+        <SearchControl />
+        <LocateButton userLocation={userPosition} />
         {toilets.map((toilet) => (
           <Marker
             key={toilet.id}
             position={[toilet.lat, toilet.lon]}
-            icon={L.icon({ iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854878.png", iconSize: [25, 25] })}
+            icon={toiletIcon}
           >
             <Popup>
               <h2 className="font-bold">{toilet.name}</h2>

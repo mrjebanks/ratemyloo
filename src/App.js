@@ -112,6 +112,27 @@ function AddToiletClickHandler({ addMode, setCustomToilets }) {
 }
 
 
+
+function StarRating({ name, value, onChange }) {
+  const stars = [1, 2, 3, 4, 5];
+  return (
+    <div className="flex space-x-1">
+      {stars.map((star) => (
+        <span
+          key={star}
+          className={\`cursor-pointer text-xl \${value >= star ? 'text-yellow-400' : 'text-gray-300'}\`}
+          onClick={() => onChange({ target: { name, value: star } })}
+          onMouseOver={(e) => e.target.classList.add('scale-110')}
+          onMouseOut={(e) => e.target.classList.remove('scale-110')}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
+
 function App() {
   const [customToilets, setCustomToilets] = useState([]);
   const [addMode, setAddMode] = useState(false);
@@ -160,20 +181,30 @@ function App() {
         comment: review.comment,
       }),
     }).then(() => {
-      alert("Review submitted!");
+      return fetch(`https://rmlbackend-production.up.railway.app/summary?toilet_id=${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSummaries((prev) => ({ ...prev, [id]: data }));
+          alert("Review submitted!");
+        });
       
       fetch(`https://rmlbackend-production.up.railway.app/summary?toilet_id=${id}`)
         .then((res) => res.json())
         .then((data) => {
           setSummaries((prev) => ({ ...prev, [id]: data }));
+          return fetch(`https://rmlbackend-production.up.railway.app/summary?toilet_id=${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSummaries((prev) => ({ ...prev, [id]: data }));
           alert("Review submitted!");
+        });
         });
     
     });
   };
 
   const toiletIcon = new L.Icon({
-    iconUrl: "/icons/public.png",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/PublicToiletIcon.svg/1024px-PublicToiletIcon.svg.png",
     iconSize: [35, 35],
     iconAnchor: [17, 34],
     popupAnchor: [0, -30]
@@ -209,7 +240,12 @@ function App() {
         .then((res) => res.json())
         .then((data) => {
           setSummaries((prev) => ({ ...prev, [id]: data }));
+          return fetch(`https://rmlbackend-production.up.railway.app/summary?toilet_id=${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSummaries((prev) => ({ ...prev, [id]: data }));
           alert("Review submitted!");
+        });
         });
     
             });
@@ -245,12 +281,10 @@ function App() {
                     onChange={(e) => handleChange(toilet.id, e)} />
                 </label><br />
                 <label>Cleanliness:<br />
-                  <input name="cleanliness" type="number" min="1" max="5" required
-                    onChange={(e) => handleChange(toilet.id, e)} />
+    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
                 </label><br />
                 <label>Accessibility:<br />
-                  <input name="accessibility" type="number" min="1" max="5" required
-                    onChange={(e) => handleChange(toilet.id, e)} />
+    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
                 </label><br />
                 <label>Baby Changing:<br />
                   <input name="baby_changing" type="number" min="1" max="5" required
@@ -269,7 +303,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "/icons/user.png",
+          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]
@@ -283,7 +317,7 @@ function App() {
           key={"custom_" + toilet.id}
           position={[toilet.lat, toilet.lon]}
           icon={new L.Icon({
-            iconUrl: "/icons/custom.png",
+            iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/ToiletIcon.svg/1024px-ToiletIcon.svg.png",
             iconSize: [35, 35],
             iconAnchor: [17, 34],
             popupAnchor: [0, -30]
@@ -299,12 +333,10 @@ function App() {
       onChange={(e) => handleChange("custom_" + toilet.id, e)} />
   </label><br />
   <label>Cleanliness:<br />
-    <input name="cleanliness" type="number" min="1" max="5" required
-      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
   </label><br />
   <label>Accessibility:<br />
-    <input name="accessibility" type="number" min="1" max="5" required
-      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
   </label><br />
   <label>Baby Changing:<br />
     <input name="baby_changing" type="number" min="1" max="5" required
@@ -324,7 +356,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "/icons/user.png",
+          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]

@@ -281,9 +281,11 @@ function App() {
                     onChange={(e) => handleChange(toilet.id, e)} />
                 </label><br />
                 <label>Cleanliness:<br />
-    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
+    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
+                </label><br />
                 <label>Accessibility:<br />
-    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
+    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
+                </label><br />
                 <label>Baby Changing:<br />
                   <input name="baby_changing" type="number" min="1" max="5" required
                     onChange={(e) => handleChange(toilet.id, e)} />
@@ -324,16 +326,40 @@ function App() {
           <Popup>
             <h2 className="font-bold">{toilet.name}</h2>
             
-<p className="text-sm italic">User-submitted toilet</p>
+
+<div>
+  <p className="text-sm italic">User-submitted toilet</p>
+  <form onSubmit={(e) => handleSubmit("custom_" + toilet.id, e)} className="space-y-1 text-sm mt-2">
+    <label>Rating:<br />
+      <StarRating name="rating" value={formData["rating"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+    </label><br />
+    <label>Cleanliness:<br />
+      <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+    </label><br />
+    <label>Accessibility:<br />
+      <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+    </label><br />
+    <label>Baby Changing:<br />
+      <StarRating name="baby_changing" value={formData["baby_changing"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+    </label><br />
+    <label>Comment:<br />
+      <textarea name="comment" rows="2" onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+    </label><br />
+    <button type="submit" className="bg-blue-500 text-white px-2 py-1 rounded">Submit</button>
+  </form>
+</div>
+
 <form onSubmit={(e) => handleSubmit("custom_" + toilet.id, e)} className="space-y-1 text-sm mt-2">
   <label>Rating (1-5):<br />
     <input name="rating" type="number" min="1" max="5" required
       onChange={(e) => handleChange("custom_" + toilet.id, e)} />
   </label><br />
   <label>Cleanliness:<br />
-    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
+    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
+  </label><br />
   <label>Accessibility:<br />
-    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange(id, e)} /></label><br />
+    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
+  </label><br />
   <label>Baby Changing:<br />
     <input name="baby_changing" type="number" min="1" max="5" required
       onChange={(e) => handleChange("custom_" + toilet.id, e)} />

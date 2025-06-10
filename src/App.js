@@ -173,7 +173,7 @@ function App() {
   };
 
   const toiletIcon = new L.Icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/2933/2933186.png",
+    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/PublicToiletIcon.svg/1024px-PublicToiletIcon.svg.png",
     iconSize: [35, 35],
     iconAnchor: [17, 34],
     popupAnchor: [0, -30]
@@ -269,7 +269,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]
@@ -283,7 +283,7 @@ function App() {
           key={"custom_" + toilet.id}
           position={[toilet.lat, toilet.lon]}
           icon={new L.Icon({
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/846/846449.png",
+            iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/ToiletIcon.svg/1024px-ToiletIcon.svg.png",
             iconSize: [35, 35],
             iconAnchor: [17, 34],
             popupAnchor: [0, -30]
@@ -291,7 +291,32 @@ function App() {
         >
           <Popup>
             <h2 className="font-bold">{toilet.name}</h2>
-            <p className="text-sm italic">User-submitted toilet</p>
+            
+<p className="text-sm italic">User-submitted toilet</p>
+<form onSubmit={(e) => handleSubmit("custom_" + toilet.id, e)} className="space-y-1 text-sm mt-2">
+  <label>Rating (1-5):<br />
+    <input name="rating" type="number" min="1" max="5" required
+      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+  </label><br />
+  <label>Cleanliness:<br />
+    <input name="cleanliness" type="number" min="1" max="5" required
+      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+  </label><br />
+  <label>Accessibility:<br />
+    <input name="accessibility" type="number" min="1" max="5" required
+      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+  </label><br />
+  <label>Baby Changing:<br />
+    <input name="baby_changing" type="number" min="1" max="5" required
+      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+  </label><br />
+  <label>Comment:<br />
+    <textarea name="comment" rows="2"
+      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
+  </label><br />
+  <button type="submit" className="bg-blue-500 text-white px-2 py-1 rounded">Submit</button>
+</form>
+
           </Popup>
         </Marker>
       ))}
@@ -299,7 +324,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]

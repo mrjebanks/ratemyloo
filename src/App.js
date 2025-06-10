@@ -68,6 +68,9 @@ function LocateButton({ userLocation }) {
 function SearchControl() {
   const map = useMap();
   useEffect(() => {
+    fetch("https://rmlbackend-production.up.railway.app/custom-toilets")
+      .then((res) => res.json())
+      .then((data) => setCustomToilets(data));
     const provider = new OpenStreetMapProvider();
     const searchControl = new GeoSearchControl({
       provider,
@@ -83,12 +86,17 @@ function SearchControl() {
 }
 
 function App() {
+  const [customToilets, setCustomToilets] = useState([]);
+  const [addMode, setAddMode] = useState(false);
   const [toilets, setToilets] = useState([]);
   const [formState, setFormState] = useState({});
   const [summaries, setSummaries] = useState({});
   const [userPosition, setUserPosition] = useState(defaultPosition);
 
   useEffect(() => {
+    fetch("https://rmlbackend-production.up.railway.app/custom-toilets")
+      .then((res) => res.json())
+      .then((data) => setCustomToilets(data));
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setUserPosition([
@@ -140,7 +148,32 @@ function App() {
   return (
     <div className="relative h-screen w-screen">
       <h1 className="text-center text-3xl font-bold p-4">Rate My Loo 🚻</h1>
-      <MapContainer center={userPosition} zoom={15} className="h-[85%] w-full">
+      
+    <button onClick={() => setAddMode(!addMode)} className="absolute z-[999] top-4 right-4 bg-green-600 text-white px-3 py-1 rounded shadow">
+      {addMode ? "🛑 Cancel Add" : "➕ Add Toilet"}
+    </button>
+    <MapContainer
+ center={userPosition}
+        whenCreated={(map) => {
+          map.on("click", function (e) {
+            if (!addMode) return;
+            const name = prompt("Enter a name for this toilet:");
+            if (!name) return;
+            fetch("https://rmlbackend-production.up.railway.app/custom-toilets", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: name,
+                lat: e.latlng.lat,
+                lon: e.latlng.lng
+              })
+            }).then(() => {
+              alert("Custom toilet added!");
+              window.location.reload();
+            });
+          });
+        }}
+ zoom={15} className="h-[85%] w-full">
         <TileLayer
           attribution='&copy; OpenStreetMap'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -190,7 +223,51 @@ function App() {
             </Popup>
           </Marker>
         ))}
-      </MapContainer>
+      
+      <Marker
+        position={userPosition}
+        icon={new L.Icon({
+          iconUrl: "https://cdn-icons-png.flaticon.com/512/1588/1588890.png",
+          iconSize: [35, 35],
+          iconAnchor: [17, 34],
+          popupAnchor: [0, -30]
+        })}
+      >
+        <Popup>You are here</Popup>
+      </Marker>
+    
+      {customToilets.map((toilet) => (
+        <Marker
+          key={"custom_" + toilet.id}
+          position={[toilet.lat, toilet.lon]}
+          icon={new L.Icon({
+            iconUrl: "https://cdn-icons-png.flaticon.com/512/2871/2871640.png",
+            iconSize: [35, 35],
+            iconAnchor: [17, 34],
+            popupAnchor: [0, -30]
+          })}
+        >
+          <Popup>
+            <h2 className="font-bold">{toilet.name}</h2>
+            <p className="text-sm italic">User-submitted toilet</p>
+          </Popup>
+        </Marker>
+      ))}
+
+      <Marker
+        position={userPosition}
+        icon={new L.Icon({
+          iconUrl: "https://cdn-icons-png.flaticon.com/512/1588/1588890.png",
+          iconSize: [35, 35],
+          iconAnchor: [17, 34],
+          popupAnchor: [0, -30]
+        })}
+      >
+        <Popup>You are here</Popup>
+      </Marker>
+    </MapContainer>
+    
+    
     </div>
   );
 }

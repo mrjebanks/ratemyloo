@@ -284,7 +284,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
+          iconUrl: "/icons/user.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]
@@ -339,7 +339,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
+          iconUrl: "/icons/user.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]

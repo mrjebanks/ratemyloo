@@ -85,6 +85,33 @@ function SearchControl() {
   return null;
 }
 
+
+function AddToiletClickHandler({ addMode, setCustomToilets }) {
+  useMapEvents({
+    click: (e) => {
+      if (!addMode) return;
+      const name = prompt("Enter a name for this toilet:");
+      if (!name) return;
+      fetch("https://rmlbackend-production.up.railway.app/custom-toilets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          lat: e.latlng.lat,
+          lon: e.latlng.lng
+        })
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setCustomToilets((prev) => [...prev, data]);
+          alert("Custom toilet added!");
+        });
+    }
+  });
+  return null;
+}
+
+
 function App() {
   const [customToilets, setCustomToilets] = useState([]);
   const [addMode, setAddMode] = useState(false);
@@ -134,12 +161,19 @@ function App() {
       }),
     }).then(() => {
       alert("Review submitted!");
-      window.location.reload();
+      
+      fetch(`https://rmlbackend-production.up.railway.app/summary?toilet_id=${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSummaries((prev) => ({ ...prev, [id]: data }));
+          alert("Review submitted!");
+        });
+    
     });
   };
 
   const toiletIcon = new L.Icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854878.png",
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/2933/2933186.png",
     iconSize: [35, 35],
     iconAnchor: [17, 34],
     popupAnchor: [0, -30]
@@ -153,6 +187,7 @@ function App() {
       {addMode ? "🛑 Cancel Add" : "➕ Add Toilet"}
     </button>
     <MapContainer
+        
  center={userPosition}
         whenCreated={(map) => {
           map.on("click", function (e) {
@@ -169,7 +204,14 @@ function App() {
               })
             }).then(() => {
               alert("Custom toilet added!");
-              window.location.reload();
+              
+      fetch(`https://rmlbackend-production.up.railway.app/summary?toilet_id=${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSummaries((prev) => ({ ...prev, [id]: data }));
+          alert("Review submitted!");
+        });
+    
             });
           });
         }}
@@ -227,7 +269,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://cdn-icons-png.flaticon.com/512/1588/1588890.png",
+          iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]
@@ -241,7 +283,7 @@ function App() {
           key={"custom_" + toilet.id}
           position={[toilet.lat, toilet.lon]}
           icon={new L.Icon({
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/2871/2871640.png",
+            iconUrl: "https://cdn-icons-png.flaticon.com/512/846/846449.png",
             iconSize: [35, 35],
             iconAnchor: [17, 34],
             popupAnchor: [0, -30]
@@ -257,7 +299,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://cdn-icons-png.flaticon.com/512/1588/1588890.png",
+          iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]
@@ -265,7 +307,8 @@ function App() {
       >
         <Popup>You are here</Popup>
       </Marker>
-    </MapContainer>
+    <AddToiletClickHandler addMode={addMode} setCustomToilets={setCustomToilets} />
+</MapContainer>
     
     
     </div>

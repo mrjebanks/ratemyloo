@@ -112,27 +112,6 @@ function AddToiletClickHandler({ addMode, setCustomToilets }) {
 }
 
 
-
-function StarRating({ name, value, onChange }) {
-  const stars = [1, 2, 3, 4, 5];
-  return (
-    <div className="flex space-x-1">
-      {stars.map((star) => (
-        <span
-          key={star}
-          className={`cursor-pointer text-xl ${value >= star ? "text-yellow-400" : "text-gray-300"}`}
-          onClick={() => onChange({ target: { name, value: star } })}
-          onMouseOver={(e) => e.target.classList.add('scale-110')}
-          onMouseOut={(e) => e.target.classList.remove('scale-110')}
-        >
-          ★
-        </span>
-      ))}
-    </div>
-  );
-}
-
-
 function App() {
   const [customToilets, setCustomToilets] = useState([]);
   const [addMode, setAddMode] = useState(false);
@@ -281,10 +260,12 @@ function App() {
                     onChange={(e) => handleChange(toilet.id, e)} />
                 </label><br />
                 <label>Cleanliness:<br />
-    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
+                  <input name="cleanliness" type="number" min="1" max="5" required
+                    onChange={(e) => handleChange(toilet.id, e)} />
                 </label><br />
                 <label>Accessibility:<br />
-    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
+                  <input name="accessibility" type="number" min="1" max="5" required
+                    onChange={(e) => handleChange(toilet.id, e)} />
                 </label><br />
                 <label>Baby Changing:<br />
                   <input name="baby_changing" type="number" min="1" max="5" required
@@ -326,39 +307,19 @@ function App() {
           <Popup>
             <h2 className="font-bold">{toilet.name}</h2>
             
-
-<div>
-  <p className="text-sm italic">User-submitted toilet</p>
-  <form onSubmit={(e) => handleSubmit("custom_" + toilet.id, e)} className="space-y-1 text-sm mt-2">
-    <label>Rating:<br />
-      <StarRating name="rating" value={formData["rating"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
-    </label><br />
-    <label>Cleanliness:<br />
-      <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
-    </label><br />
-    <label>Accessibility:<br />
-      <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
-    </label><br />
-    <label>Baby Changing:<br />
-      <StarRating name="baby_changing" value={formData["baby_changing"] || 0} onChange={(e) => handleChange("custom_" + toilet.id, e)} />
-    </label><br />
-    <label>Comment:<br />
-      <textarea name="comment" rows="2" onChange={(e) => handleChange("custom_" + toilet.id, e)} />
-    </label><br />
-    <button type="submit" className="bg-blue-500 text-white px-2 py-1 rounded">Submit</button>
-  </form>
-</div>
-
+<p className="text-sm italic">User-submitted toilet</p>
 <form onSubmit={(e) => handleSubmit("custom_" + toilet.id, e)} className="space-y-1 text-sm mt-2">
   <label>Rating (1-5):<br />
     <input name="rating" type="number" min="1" max="5" required
       onChange={(e) => handleChange("custom_" + toilet.id, e)} />
   </label><br />
   <label>Cleanliness:<br />
-    <StarRating name="cleanliness" value={formData["cleanliness"] || 0} onChange={(e) => handleChange("{id}", e)} />
+    <input name="cleanliness" type="number" min="1" max="5" required
+      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
   </label><br />
   <label>Accessibility:<br />
-    <StarRating name="accessibility" value={formData["accessibility"] || 0} onChange={(e) => handleChange("{id}", e)} />
+    <input name="accessibility" type="number" min="1" max="5" required
+      onChange={(e) => handleChange("custom_" + toilet.id, e)} />
   </label><br />
   <label>Baby Changing:<br />
     <input name="baby_changing" type="number" min="1" max="5" required

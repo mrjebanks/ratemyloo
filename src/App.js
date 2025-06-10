@@ -173,7 +173,7 @@ function App() {
   };
 
   const toiletIcon = new L.Icon({
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/PublicToiletIcon.svg/1024px-PublicToiletIcon.svg.png",
+    iconUrl: "/icons/public.png",
     iconSize: [35, 35],
     iconAnchor: [17, 34],
     popupAnchor: [0, -30]
@@ -269,7 +269,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
+          iconUrl: "/icons/user.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]
@@ -283,7 +283,7 @@ function App() {
           key={"custom_" + toilet.id}
           position={[toilet.lat, toilet.lon]}
           icon={new L.Icon({
-            iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/ToiletIcon.svg/1024px-ToiletIcon.svg.png",
+            iconUrl: "/icons/custom.png",
             iconSize: [35, 35],
             iconAnchor: [17, 34],
             popupAnchor: [0, -30]
@@ -324,7 +324,7 @@ function App() {
       <Marker
         position={userPosition}
         icon={new L.Icon({
-          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_userAvatar.svg/1024px-OOjs_UI_icon_userAvatar.svg.png",
+          iconUrl: "/icons/user.png",
           iconSize: [35, 35],
           iconAnchor: [17, 34],
           popupAnchor: [0, -30]

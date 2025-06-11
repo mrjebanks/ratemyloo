@@ -254,8 +254,7 @@ function App() {
                   <p>👶 Baby Changing: {summaries[toilet.id].baby_changing.toFixed(1)}</p>
                 </div>
               )}
-              <div className="text-yellow-500 text-sm">★★★★☆</div>
-<form onSubmit={(e) => handleSubmit(toilet.id, e)} className="space-y-1 text-sm">
+              <form onSubmit={(e) => handleSubmit(toilet.id, e)} className="space-y-1 text-sm">
                 <label>Rating (1-5):<br />
                   <input name="rating" type="number" min="1" max="5" required
                     onChange={(e) => handleChange(toilet.id, e)} />

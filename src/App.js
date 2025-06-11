@@ -344,6 +344,18 @@ function App() {
   </div>
 )}
 
+
+{toilet && summaries["custom_" + toilet.id] && (
+  <div className="text-yellow-500 text-sm flex space-x-1 mb-1">
+    {Array.from({ length: 5 }, (_, i) => (
+      <span key={i}>
+        {i < Math.round(summaries["custom_" + toilet.id].avg_rating) ? "★" : "☆"}
+      </span>
+    ))}
+    <span className="text-gray-500 ml-1">({summaries["custom_" + toilet.id].avg_rating.toFixed(1)})</span>
+  </div>
+)}
+
 <form onSubmit={(e) => handleSubmit("custom_" + toilet.id, e)} className="space-y-1 text-sm mt-2">
   <label>Rating (1-5):<br />
     <input name="rating" type="number" min="1" max="5" required

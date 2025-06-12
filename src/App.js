@@ -191,7 +191,7 @@ function App() {
 
   return (
     <div className="relative h-screen w-screen">
-      <h1 className="text-center text-3xl font-bold p-4">Rate my Loo 🚻</h1>
+      <h1 className="text-center text-3xl font-bold p-4">Rate My Loo 🚻</h1>
       
     <button onClick={() => setAddMode(!addMode)} className="absolute z-[999] top-4 right-4 bg-green-600 text-white px-3 py-1 rounded shadow">
       {addMode ? "🛑 Cancel Add" : "➕ Add Toilet"}
